@@ -29,9 +29,9 @@ def criarImagemBinaria():
     for i in range(img.size[0]):
         for j in range(img.size[1]):
             if ((int(i/25)+int(j/25)) % 2 == 0):
-                raster[i,j] = 0
-            else:
                 raster[i,j] = 255
+            else:
+                raster[i,j] = 0
     y = img.getpixel((0, 0))
     print(y)
     return img
@@ -77,35 +77,75 @@ def transformarBin(img):
             (r, g, b) = img.getpixel((i, j))
             tCinza = int((0.3*r+0.59*g+0.11*b))
             if tCinza >= 127:
-                raster_new[i, j] = 1
+                raster_new[i, j] = 255
             else:
                 raster_new[i, j] = 0
     return new_img
 
-# Leitura de uma imagem
-img = Image.open(urlopen("https://www.inf.ufsc.br/~roberto.willrich/INE5431/RGB1.jpg"))
-print(img.getpixel((0, 0)))
+def transformarRed(img):
+    x, y = img.size[0], img.size[1]
+    new_img = Image.new("RGB", (x, y))
+    raster_new = new_img.load()
+    for i in range(int(x)):
+        for j in range(int(y)):
+            (r, g, b) = img.getpixel((i, j))
+            raster_new[i, j] = (r, 0, 0, 255)
+    return new_img
 
-# apresentação da imagem
-#img.show()
+def transformarGreen(img):
+    x, y = img.size[0], img.size[1]
+    new_img = Image.new("RGB", (x, y))
+    raster_new = new_img.load()
+    for i in range(int(x)):
+        for j in range(int(y)):
+            (r, g, b) = img.getpixel((i, j))
+            raster_new[i, j] = (0, g, 0, 255)
+    return new_img
 
-# Cria e apresenta uma imagem True Color
-#criarImagemRGB().show()
+def transformarBlue(img):
+    x, y = img.size[0], img.size[1]
+    new_img = Image.new("RGB", (x, y))
+    raster_new = new_img.load()
+    for i in range(int(x)):
+        for j in range(int(y)):
+            (r, g, b) = img.getpixel((i, j))
+            raster_new[i, j] = (0, 0, b, 255)
+    return new_img
 
-#Cria e apresenta uma imagem Tons de Cinza
-#criarImagemCinza().show()
+if __name__ == "__main__":
+    # Leitura de uma imagem
+    img = Image.open(urlopen("https://www.inf.ufsc.br/~roberto.willrich/INE5431/RGB1.jpg"))
+    print(img.getpixel((0, 0)))
 
-#Cria e apresenta uma imagem Binária
-#criarImagemBinaria().show()
+    # apresentação da imagem
+    #img.show()
 
-#1.
-#espelharImg(img).show()
+    # Cria e apresenta uma imagem True Color
+    #criarImagemRGB().show()
 
-#2.
-#reduzirImg(img).show()
+    #Cria e apresenta uma imagem Tons de Cinza
+    #criarImagemCinza().show()
 
-#3.
-transformarCinza(img).show()
+    #Cria e apresenta uma imagem Binária
+    #criarImagemBinaria().show()
 
-#4.
-#transformarBin(img).show()
+    #1.
+    #espelharImg(img).show()
+
+    #2.
+    #reduzirImg(img).show()
+
+    #3.
+    #transformarCinza(img).show()
+
+    #4.
+    #transformarBin(img).show()
+
+    #5.1
+    transformarRed(img).show()
+
+    # 5.2
+    transformarGreen(img).show()
+
+    # 5.3
+    transformarBlue(img).show()
